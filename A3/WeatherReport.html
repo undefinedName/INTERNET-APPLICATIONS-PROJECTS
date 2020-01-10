@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body{
+	width: 50%;
+	margin: auto;
+	border: 1px solid red;
+	border-width: 2px;
+	border-radius: 15px;
+	padding: 15px;
+	overflow: hidden;
+	}
+#spinner{
+	width: 20px; 
+	height: 20px;
+	border: 10px solid #f3f3f3;
+	border-top: 10px solid red;
+	border-bottom: 10px solid red;
+	border-radius: 50%;
+    animation: spin 2s linear infinite;
+	}	
+@keyframes spin{
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+	
+</style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		  
+ <script type = "text/javascript"> 
+ $(document).ready( function(){
+	$("button").click(function(){
+   
+     var zip = $("#zip").val();
+	 
+     if(zip != ''){
+		 $.ajax({
+             type: 		"GET",
+             url: 		"generateWeather.php",
+             data: 		"zip="+zip,
+			 
+		     beforeSend: function(){
+							$('body').append('<div style="" id="spinner"></div>');
+			                $("#B").html("Waiting....");                },
+         
+			 error: 		function(xhr, status, error) {  
+							  alert( "Error Mesaage:  \r\nNumeric code is: "  + xhr.status + " \r\nError is " + error);   },
+			 
+			success: 	function(result){
+				setTimeout(function(){
+					r = JSON.parse(result);
+					$('#spinner').remove();
+
+					res =  "<br>City: "			  + r.name+  " "				+
+						"<br>Coordinates: " 	  + r.coord.lon + ", " + r.coord.lat + " "		  		+
+						"<br>Temperature: " 	  + r.main.temp + "&deg;F "		  +
+						"<br>Weather: " 		  + r.weather[0].main + " "		  +
+						"<br>Wind speed: " 		  + r.wind.speed + " "		  +
+						"<br>Humidity: " 		  + r.main.humidity + "%"		  +
+						"<br>Sunrise/epoch: "  + Date((r.sys.sunrise)*1000) + " "			  +
+						"<br>";
+					$("#B").html(res);
+				},2000);
+			}
+		});  
+     };
+  });
+});
+     
+</script>
+</head>
+<body style="background-color:lightgrey;"><h1 style="color:red;">Weather Report  <div id=box> </h1>
+<b>Enter a ZIP Code below!</b><br>
+<input type=number id = "zip" name = "zip" placeholder="ZIP Code" autocomplete="off" min="0" required>
+<button id = "btn" type = "BUTTON"><b>REQUEST REPORT</b></button>
+<div id= "B"></div>
+</body>
+</html>
