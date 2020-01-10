@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<style>  
+
+#box {width:1em;} 
+span {background-color: red}
+
+form {
+	width: 50%;
+	margin: auto;
+	border: 1px solid red;
+	border-width: 2px;
+	border-radius: 15px;
+	padding: 15px;
+	overflow: hidden;
+	}
+	
+<!-- Table -->
+td {color: #e50b16;}
+tr:nth-child(odd){background-color: lightgrey}
+tr:nth-child(even){background-color: #b7b7b7}
+</style>
+
+<form action="createaccount.php" onsubmit="return f1()" name="CreateAccount">
+
+<label for="UCID">UCID</label><br>
+<input type=text name="UCID" id="UCIDf1" required="required"><br><br>
+
+<label for="Pass">Password</label><br>
+<input type=text name="Pass" id="Pass" required="required"><br><br>
+
+<label for="RePass">Retype Password</label><br>
+<input type=text name="RePass" id="RePass" required="required">
+<span id="warning1"></span>  <br><br>
+
+<label for ="Name">Name</label><br>
+<input type=text name="Name" id="Name" required="required"><br><br>
+
+<label for ="Email">Email Address</label><br>
+<input type=text name="Email" id="Email" required="required"><br><br>
+
+<label for="Initial">Enter initial amount</label><br>
+<input type=number name="Initial" id="Initial" min=0 step="any" required="required"> <br><br>
+
+<input type=submit value="Create Account">
+
+</form><br>
+
+<form action="deposit-or-withdraw.php" onsubmit="return f2()" name="Transaction">
+
+<label for="UCID">UCID</label><br>
+<input type=text name="UCID" id="UCIDf2" required="required">
+<span id="warning2"></span>  <br><br>
+
+<label for="Pass">Password</label><br>
+<input type=text name="Pass" id="Pass" required="required"> <br><br>
+
+<label for="Amount">Enter amount</label><br>
+<input type=text name="Amount" id="Amount" required="required"> <br><br>
+
+<label for="Type">What would you like to do?</label><br>
+<select name="Type" id = "Type">
+<option value = 'D'>Deposit</option>
+<option value = 'W'>Withdraw</option>
+</select><br><br>
+
+<label for="Mail">Would you like a mail receipt?</label><br>
+<select name="Mail" id = "Mail">
+<option value = 'N'>No</option>
+<option value = 'Y'>Yes</option>
+</select><br><br>
+
+<input type=submit value="Perform Transaction">
+
+</form><br>
+
+<form action="display.php" onsubmit="return f3()" name="Display">
+
+<label for="UCID">UCID</label><br>
+<input type=text name="UCID" id="UCIDf3" required="required">
+<span id="warning3"></span>  <br><br>
+
+<label for="Pass">Password</label><br>
+<input type=text name="Pass" id="Pass" required="required"> <br><br>
+
+<label for="Number">Enter Number</label><br>
+<input type=number name="Number" id="Number" min=0> <br><br>
+
+<label for="Mail">Would you like a mail receipt?</label><br>
+<select name="Mail" id = "Mail">
+<option value = 'N'>No</option>
+<option value = 'Y'>Yes</option>
+</select><br><br>
+
+<input type=submit value="Display Transactions">
+
+</form>
+
+<script>
+
+// Form #2 UCID listener
+	var id2 = document.getElementById("UCIDf2");
+	id2.addEventListener("blur", f2)
+	var warning2 = document.getElementById ( "warning2" )
+// Form #3 UCID listener
+	var id3 = document.getElementById("UCIDf3");
+	id3.addEventListener("blur", f3)
+	var warning3 = document.getElementById ( "warning3" )
+	
+	var pass1 = document.getElementById("Pass");
+	var pass2 = document.getElementById("RePass");
+	pass2.addEventListener("blur", f1)
+	var warning1 = document.getElementById ( "warning1" )
+function f1() {
+
+	var p1 = document.getElementById("Pass").value;
+	var p2 = document.getElementById("RePass").value;
+ 	if (p1.trim() != p2.trim()){
+	warning1.innerHTML="<b>Password does not match</b>" 
+	return false
+	} else{warning1.innerHTML=""
+	return true
+	}
+}
+
+function f2() {
+
+	var v = document.getElementById("UCIDf2").value;
+ 	if (v.trim() == ""){
+	warning2.innerHTML="<b>Please enter a UCID</b>" 
+	return false
+	} else{warning2.innerHTML=""
+	return true
+	}
+}
+
+function f3() {
+	
+	var v = document.getElementById("UCIDf3").value;
+ 	if (v.trim() == ""){
+	warning3.innerHTML="<b>Please enter a UCID</b>" 
+	return false
+	} else{warning3.innerHTML=""
+	return true
+	}
+}
+</script>
